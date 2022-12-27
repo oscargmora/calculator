@@ -1,17 +1,18 @@
 defaultA = 0;
 defaultB = 0;
 defaultNum = 0;
+defaultOperator = '';
 
 let operands = [];
 let a = defaultA;
 let b = defaultB;
 let num = defaultNum;
-let operator;
+let operator = defaultOperator;
 let roundedAnswer;
 
 let updateScreen = function() {
     let buttonId = this.id;
-    if (screen.innerText === '') {
+    if (screen.innerText === '0') {
         screen.innerText = buttonId;
         num = Number(screen.innerText);
     } else {
@@ -33,40 +34,47 @@ let storeValuesB = function() {
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];
-    let lastNum = operatorSplitter.slice(0, -1);
-    b = Number(lastNum);
-    buttonId = this.id;
-    screen.innerText += buttonId;
-    num = 0;
-    operate(operator, a, b);
+    if (operatorSplitter === undefined) {
+        return;
+    } else {
+        let lastNum = operatorSplitter.slice(0, -1);
+        b = Number(lastNum);
+        buttonId = this.id;
+        screen.innerText += buttonId;
+        num = 0;
+        operate(operator, a, b);
+    };
 };
 
 let operate = function(operator, a, b) {
     operands = [a, b];
     if (operator === '+') {
         roundedAnswer = Math.round(addNumbers(operands) * 100000) / 100000;
-        screen.innerText = roundedAnswer
-        num = screen.innerText;
+        screen.innerText = roundedAnswer;
+        num = Number(screen.innerText);
     } else if (operator === '-') {
         roundedAnswer = Math.round(subtractNumbers(operands) * 100000) / 100000;
-        screen.innerText = roundedAnswer
-        num = screen.innerText;
+        screen.innerText = roundedAnswer;
+        num = Number(screen.innerText);
     } else if (operator === 'x') {
         roundedAnswer = Math.round(multiplyNumbers(operands) * 100000) / 100000;
-        screen.innerText = roundedAnswer
-        num = screen.innerText;
+        screen.innerText = roundedAnswer;
+        num = Number(screen.innerText);
     } else if (operator === '÷') {
         roundedAnswer = Math.round(divideNumbers(operands) * 100000) / 100000;
-        screen.innerText = roundedAnswer
-        num = screen.innerText;
+        screen.innerText = roundedAnswer;
+        num = Number(screen.innerText);
+        if (b === 0) {
+            screen.innerText = 'Error';
+        };
     };
-};
+ };
 
 let clearScreen = function() {
     a = defaultA;
     b = defaultB;
     num = defaultNum;
-    screen.innerText = '';
+    screen.innerText = '0';
     document.getElementById('.').disabled = false;
 }
 
@@ -103,6 +111,17 @@ let divideNumbers = function(operands) {
     return division;
 };
 
+let deleteLastEntry = function() {
+    if (screen.innerText === '0') {
+        return;
+    } else if (screen.innerText === 'Error') {
+        return clearScreen();
+    } else {
+        slicedString = screen.innerText.slice(0, -1);
+        screen.innerText = slicedString;
+    };
+};
+
 const screen = document.getElementById('screen');
 const zero = document.getElementById('0').addEventListener('click', updateScreen);
 const one = document.getElementById('1').addEventListener('click', updateScreen);
@@ -120,6 +139,19 @@ const minus = document.getElementById('-').addEventListener('click', storeValues
 const times = document.getElementById('x').addEventListener('click', storeValuesA);
 const divide = document.getElementById('÷').addEventListener('click', storeValuesA);
 const equals = document.getElementById('=').addEventListener('click', storeValuesB);
-const del = document.getElementById('delete')//.addEventListener('click', )
+const del = document.getElementById('delete').addEventListener('click', deleteLastEntry);
 const clear = document.getElementById('clear').addEventListener('click', clearScreen);
 const btn = document.getElementsByClassName('btn');
+
+window.addEventListener('keydown', handleKeyboardInput);
+
+function handleKeyboardInput(e) {
+    if (e.key === 'Backspace') deleteLastEntry();
+    if (e.key === 'Escape') clearScreen();
+};
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        document.getElementById('=').click();
+    };
+});
