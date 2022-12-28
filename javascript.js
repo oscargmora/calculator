@@ -1,6 +1,7 @@
-defaultA = 0;
-defaultB = 0;
+defaultA = undefined;
+defaultB = undefined;
 defaultNum = 0;
+defaultScreen = 0;
 defaultOperator = '';
 
 let operands = [];
@@ -34,7 +35,7 @@ let storeValuesB = function() {
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];
-    if (operatorSplitter === undefined) {
+    if (operatorSplitter === undefined || a === undefined) {
         return;
     } else {
         let lastNum = operatorSplitter.slice(0, -1);
@@ -74,6 +75,7 @@ let clearScreen = function() {
     a = defaultA;
     b = defaultB;
     num = defaultNum;
+    operator = defaultOperator;
     screen.innerText = '0';
     document.getElementById('.').disabled = false;
 }
@@ -146,12 +148,11 @@ const btn = document.getElementsByClassName('btn');
 window.addEventListener('keydown', handleKeyboardInput);
 
 function handleKeyboardInput(e) {
+    if (e.key >= 0 && e.key <= 9) document.getElementById(`${e.key}`).click();
+    if (e.key === '.' || e.key === '+' || e.key === '-') document.getElementById(`${e.key}`).click();
+    if (e.key === '*') document.getElementById('x').click();
+    if (e.key === '/') document.getElementById('÷').click();
+    if (e.key === 'Enter') storeValuesB();
     if (e.key === 'Backspace') deleteLastEntry();
     if (e.key === 'Escape') clearScreen();
 };
-
-document.addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        document.getElementById('=').click();
-    };
-});
