@@ -1,6 +1,6 @@
-defaultA = undefined;
-defaultB = undefined;
-defaultNum = 0;
+defaultA = '';
+defaultB = '';
+defaultNum = '';
 defaultScreen = 0;
 defaultOperator = '';
 
@@ -23,15 +23,21 @@ let updateScreen = function() {
 };
 
 let storeValuesA = function() {
+    storeValuesB();
     a = num;
     operator = this.id;
     buttonId = this.id;
     screen.innerText += buttonId;
     num = 0;
     document.getElementById('.').disabled = false;
+    topScreen.innerText = screen.innerText;
 };
 
 let storeValuesB = function() {
+    if (a === '') return;
+    if (typeof(a) === Number && b === 0) {
+        return;
+    };
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];
@@ -41,6 +47,7 @@ let storeValuesB = function() {
         let lastNum = operatorSplitter.slice(0, -1);
         b = Number(lastNum);
         buttonId = this.id;
+        topScreen.innerText = screen.innerText + '=';
         screen.innerText += buttonId;
         num = 0;
         operate(operator, a, b);
@@ -77,6 +84,7 @@ let clearScreen = function() {
     num = defaultNum;
     operator = defaultOperator;
     screen.innerText = '0';
+    topScreen.innerText = '';
     document.getElementById('.').disabled = false;
 }
 
@@ -121,9 +129,11 @@ let deleteLastEntry = function() {
     } else {
         slicedString = screen.innerText.slice(0, -1);
         screen.innerText = slicedString;
+        topScreen.innerText = screen.innerText;
     };
 };
 
+const topScreen = document.getElementById('topScreen');
 const screen = document.getElementById('screen');
 const zero = document.getElementById('0').addEventListener('click', updateScreen);
 const one = document.getElementById('1').addEventListener('click', updateScreen);
