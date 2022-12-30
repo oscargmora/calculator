@@ -28,16 +28,13 @@ let storeValuesA = function() {
     operator = this.id;
     buttonId = this.id;
     screen.innerText += buttonId;
-    num = 0;
+    num = defaultNum;
     document.getElementById('.').disabled = false;
     topScreen.innerText = screen.innerText;
 };
 
 let storeValuesB = function() {
     if (a === '') return;
-    if (typeof(a) === Number && b === 0) {
-        return;
-    };
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];
@@ -49,7 +46,7 @@ let storeValuesB = function() {
         buttonId = this.id;
         topScreen.innerText = screen.innerText + '=';
         screen.innerText += buttonId;
-        num = 0;
+        num = defaultNum;
         operate(operator, a, b);
     };
 };
@@ -124,11 +121,16 @@ let divideNumbers = function(operands) {
 let deleteLastEntry = function() {
     if (screen.innerText === '0') {
         return;
+    } else if (screen.innerText === '1' || screen.innerText === '2' || screen.innerText === '3' || screen.innerText === '4' || screen.innerText === '5' || screen.innerText === '6' || screen.innerText === '7' || screen.innerText === '8' || screen.innerText === '9') {
+        screen.innerText = '0';
+        topScreen.innerText = screen.innerText;
     } else if (screen.innerText === 'Error') {
         return clearScreen();
     } else {
         slicedString = screen.innerText.slice(0, -1);
         screen.innerText = slicedString;
+        num = Number(screen.innerText);
+        a = num;
         topScreen.innerText = screen.innerText;
     };
 };
