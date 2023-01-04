@@ -1,15 +1,91 @@
-.main {
+body {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 75vh;
-    min-height: 500px;
-    padding: 10px;
-    margin-top: 50px;
+    min-height: calc(100vh - 70px);
+    padding: 0px;
+    margin: 0px;
+    background-color: whitesmoke;
+    font-family: sans-serif;
 }
 
 .screenContainer {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    background-color: #292c2c;
+    width: 251px;
+    height: 50px;
+    padding: 4px;
+    margin-bottom: 3px;
+    border-radius: 0.2em;
+}
+
+#topScreen, #screen {
+    color: whitesmoke;
+}
+
+.btn, .add, .subtract, .times, .divide, .decimal, .equal {
+    padding: 25px;
+    background-color: #adb1b4;
+    border-color: 5px;
+    border-radius: 0.2em;
+}
+
+.decimal, .equal, .add, .subtract, .times, .divide {
+    width: 61.416px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.top {
+    display: flex;
+    gap: 3px;
+}
+
+#delete, #clear {
+    width: 128.45px;
+}
+
+#clear {
+    background-color: rgb(216, 52, 54);
+}
+
+#clear:hover {
+    background-color: rgb(203, 48, 50);
+}
+
+#delete {
+    background-color: #e4e4ef;
+}
+
+#delete:hover {
+    background-color: #d8d8e3;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #979a9c;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px;
+    font-size: 20px;
 }

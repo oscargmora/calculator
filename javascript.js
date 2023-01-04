@@ -4,12 +4,14 @@ defaultNum = '';
 defaultScreen = 0;
 defaultOperator = '';
 
+const error = 'Error';
 let operands = [];
 let a = defaultA;
 let b = defaultB;
 let num = defaultNum;
 let operator = defaultOperator;
 let roundedAnswer;
+let previousOperator = operator;
 
 let updateScreen = function() {
     let buttonId = this.id;
@@ -18,11 +20,15 @@ let updateScreen = function() {
         num = Number(screen.innerText);
     } else {
         screen.innerText += buttonId;
-        num = Number(screen.innerText);
+        num = screen.innerText;
     };
+    previousOperator = operator;
 };
 
 let storeValuesA = function() {
+    if (previousOperator !== operator) {
+        return;
+    };
     storeValuesB();
     a = num;
     operator = this.id;
@@ -80,6 +86,7 @@ let clearScreen = function() {
     b = defaultB;
     num = defaultNum;
     operator = defaultOperator;
+    previousOperator = operator;
     screen.innerText = '0';
     topScreen.innerText = '';
     document.getElementById('.').disabled = false;
@@ -124,14 +131,20 @@ let deleteLastEntry = function() {
     } else if (screen.innerText === '1' || screen.innerText === '2' || screen.innerText === '3' || screen.innerText === '4' || screen.innerText === '5' || screen.innerText === '6' || screen.innerText === '7' || screen.innerText === '8' || screen.innerText === '9') {
         screen.innerText = '0';
         topScreen.innerText = screen.innerText;
-    } else if (screen.innerText === 'Error') {
-        return clearScreen();
     } else {
-        slicedString = screen.innerText.slice(0, -1);
-        screen.innerText = slicedString;
-        num = Number(screen.innerText);
-        a = num;
-        topScreen.innerText = screen.innerText;
+        if (typeof(num) === 'string') {
+            slicedString = screen.innerText.slice(0, -1);
+            screen.innerText = slicedString;
+            num = Number(screen.innerText.slice(0, -1));
+            a = num;
+        } else {
+            slicedString = screen.innerText.slice(0, -1);
+            screen.innerText = slicedString;
+            num = Number(screen.innerText);
+            a = num;
+            topScreen.innerText = screen.innerText;
+            previousOperator = operator;
+        };
     };
 };
 
@@ -164,7 +177,7 @@ function handleKeyboardInput(e) {
     if (e.key === '.' || e.key === '+' || e.key === '-') document.getElementById(`${e.key}`).click();
     if (e.key === '*') document.getElementById('x').click();
     if (e.key === '/') document.getElementById('÷').click();
-    if (e.key === 'Enter') storeValuesB();
+    if (e.key === 'Enter' || e.key === '=') storeValuesB();
     if (e.key === 'Backspace') deleteLastEntry();
     if (e.key === 'Escape') clearScreen();
 };
