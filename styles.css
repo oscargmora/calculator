@@ -29,6 +29,7 @@ body {
     color: whitesmoke;
 }
 
+/* styling for all buttons */
 .btn, .add, .subtract, .times, .divide, .decimal, .equal {
     padding: 25px;
     background-color: #adb1b4;
@@ -36,6 +37,7 @@ body {
     border-radius: 0.2em;
 }
 
+/* extra styling for special buttons */
 .decimal, .equal, .add, .subtract, .times, .divide {
     width: 61.416px;
 }

@@ -12,6 +12,8 @@ let operator = defaultOperator;
 let roundedAnswer;
 let previousOperator = operator;
 
+
+// updates screen with the number inputted
 let updateScreen = function() {
     let buttonId = this.id;
     if (screen.innerText === '0') {
@@ -25,6 +27,7 @@ let updateScreen = function() {
     previousOperator = operator;
 };
 
+// stores value of the first number inputted into a variable and stores operator
 let storeValuesA = function() {
     if (previousOperator !== operator) {
         return;
@@ -39,6 +42,7 @@ let storeValuesA = function() {
     topScreen.innerText = screen.innerText;
 };
 
+// stores value of second number inputted and operates
 let storeValuesB = function() {
     if (a === '') return;
     if (num === '') return;
@@ -58,6 +62,7 @@ let storeValuesB = function() {
     };
 };
 
+// operates the equation based on the numbers and operator
 let operate = function(operator, a, b) {
     operands = [a, b];
     if (operator === '+') {
@@ -82,6 +87,7 @@ let operate = function(operator, a, b) {
     };
  };
 
+// clears screen and changes variables back to defaults
 let clearScreen = function() {
     a = defaultA;
     b = defaultB;
@@ -93,6 +99,7 @@ let clearScreen = function() {
     document.getElementById('.').disabled = false;
 }
 
+// code for adding decimal points only once per number
 let addDecimal = function() {
     let buttonId = this.id;
     this.disabled = true;
@@ -106,26 +113,31 @@ let addDecimal = function() {
     };
 };
 
+// code for addition
 let addNumbers = function(operands) {
     const sum = operands.reduce((newSum, newNumber) => newSum + newNumber);
     return sum;
 };
 
+// code for subtraction
 let subtractNumbers = function(operands) {
     const subtraction = operands.reduce((newSum, newNumber) => newSum - newNumber);
     return subtraction;
 };
 
+// code for multiplication
 let multiplyNumbers = function(operands) {
     const multiplication = operands.reduce((newSum, newNumber) => newSum * newNumber);
     return multiplication;
 };
 
+// code for division
 let divideNumbers = function(operands) {
     const division = operands.reduce((newSum, newNumber) => newSum / newNumber);
     return division;
 };
 
+//code for deletion
 let deleteLastEntry = function() {
     if (screen.innerText === '0') {
         return;
@@ -171,6 +183,7 @@ const del = document.getElementById('delete').addEventListener('click', deleteLa
 const clear = document.getElementById('clear').addEventListener('click', clearScreen);
 const btn = document.getElementsByClassName('btn');
 
+//keyboard input functionality
 window.addEventListener('keydown', handleKeyboardInput);
 
 function handleKeyboardInput(e) {
