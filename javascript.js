@@ -4,7 +4,6 @@ defaultNum = '';
 defaultScreen = 0;
 defaultOperator = '';
 
-const error = 'Error';
 let operands = [];
 let a = defaultA;
 let b = defaultB;
@@ -20,7 +19,8 @@ let updateScreen = function() {
         num = Number(screen.innerText);
     } else {
         screen.innerText += buttonId;
-        num = screen.innerText;
+        let numberScreen = Number(screen.innerText);
+        num = numberScreen;
     };
     previousOperator = operator;
 };
@@ -41,6 +41,7 @@ let storeValuesA = function() {
 
 let storeValuesB = function() {
     if (a === '') return;
+    if (num === '') return;
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];

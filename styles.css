@@ -17,10 +17,12 @@ body {
     justify-content: space-between;
     background-color: #292c2c;
     width: 251px;
-    height: 50px;
+    min-height: 50px;
     padding: 4px;
     margin-bottom: 3px;
     border-radius: 0.2em;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 
 #topScreen, #screen {
