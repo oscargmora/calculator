@@ -29,10 +29,12 @@ let updateScreen = function() {
 
 // stores value of the first number inputted into a variable and stores operator
 let storeValuesA = function() {
+    if (num === '') return;
     if (previousOperator !== operator) {
         return;
     };
     storeValuesB();
+    console.log(num);
     a = num;
     operator = this.id;
     buttonId = this.id;
@@ -45,7 +47,6 @@ let storeValuesA = function() {
 // stores value of second number inputted and operates
 let storeValuesB = function() {
     if (a === '') return;
-    if (num === '') return;
     let screenString = JSON.stringify(screen.innerText);
     let equalsSplitter = screenString.split('=')[0];
     let operatorSplitter = equalsSplitter.split(operator)[1];
@@ -146,17 +147,34 @@ let deleteLastEntry = function() {
         topScreen.innerText = screen.innerText;
     } else {
         if (typeof(num) === 'string') {
-            slicedString = screen.innerText.slice(0, -1);
-            screen.innerText = slicedString;
-            num = Number(screen.innerText.slice(0, -1));
-            a = num;
+            if (screen.innerText.charAt(screen.innerText.length-1) === operator) {
+                slicedString = screen.innerText.slice(0, -1);
+                console.log(slicedString);
+                screen.innerText = slicedString;
+                num = Number(screen.innerText);
+                previousOperator = operator;  
+            } else {
+                slicedString = screen.innerText.slice(0, -1);
+                screen.innerText = slicedString;
+                num = Number(screen.innerText.slice(0, -1));
+                previousOperator = operator;
+            };
         } else {
-            slicedString = screen.innerText.slice(0, -1);
-            screen.innerText = slicedString;
-            num = Number(screen.innerText);
-            a = num;
-            topScreen.innerText = screen.innerText;
-            previousOperator = operator;
+            if (operator !== '') {
+                slicedString = screen.innerText.slice(0, -1);
+                screen.innerText = slicedString;
+                let deletedString = screen.innerText.substring(screen.innerText.indexOf(operator) + 1);
+                num = Number(deletedString);
+                topScreen.innerText = screen.innerText;
+                previousOperator = operator;
+            } else {
+                slicedString = screen.innerText.slice(0, -1);
+                screen.innerText = slicedString;
+                num = Number(screen.innerText);
+                a = num;
+                topScreen.innerText = screen.innerText;
+                previousOperator = operator;
+            };
         };
     };
 };
